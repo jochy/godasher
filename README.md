@@ -1,5 +1,7 @@
 # GODasher
 
+![Dashboard example](https://i.postimg.cc/k4pqWBnF/dashboard.png)
+
 * Build dashboards screen using **only configuration file**
 * Automatic grid layout
 * Native browser grid system
@@ -7,6 +9,8 @@
 * No web framework constraint
 * Fast and light
 * Runs well on a docker environment
+
+See how it works: https://github.com/jochy/godasher/wiki/Create-a-dashboard
 
 # How to run GODasher
 

@@ -10,8 +10,6 @@ type Config struct {
 
 type Dashboard struct {
 	Title      string
-	Columns    int
-	Rows       int
 	Components []Component
 }
 
