@@ -1,0 +1,5 @@
+plugins/**
+dasher
+*.upx
+config.yml
+Dockerfile

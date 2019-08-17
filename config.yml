@@ -1,0 +1,71 @@
+port: 8000
+rotationtime: 10
+theme: dark
+
+externalconfig:
+  jenkins:
+    baseUrl: https://jenkins.demo.fr
+    user: demo
+    password: demo
+
+dashboards:
+  - title: 'Mon dashboard'
+
+    components:
+      - type: iframe
+        title: 'Weather nearby'
+        width: 2
+        height: 1
+        column: 0
+        row: 0
+        data:
+          url: 'https://www.meteoblue.com/en/weather/widget/three/toulouse_france_2972315?geoloc=fixed&nocurrent=0&noforecast=0&noforecast=1&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&layout=image&location_url=https%3A%2F%2Fwww.meteoblue.com%2Fen%2Fweather%2Fwidget%2Fthree%2Ftoulouse_france_2972315&location_mainUrl=https%3A%2F%2Fwww.meteoblue.com%2Fen%2Fweather%2Fforecast%2Fthree%2Ftoulouse_france_2972315&nolocation_url=https%3A%2F%2Fwww.meteoblue.com%2Fen%2Fweather%2Fwidget%2Fthree&nolocation_mainUrl=https%3A%2F%2Fwww.meteoblue.com%2Fen%2Fweather%2Fforecast%2Fthree&dailywidth=115&tracking=%3Futm_source%3Dweather_widget%26utm_medium%3Dlinkus%26utm_content%3Dthree%26utm_campaign%3DWeather%252BWidget'
+
+      - type: iframe
+        title: 'Google trends'
+        width: 1
+        height: 2
+        column: 2
+        row: 0
+        data:
+          url: "//hawttrends.appspot.com/?delay=9000&amp;neat=1&amp;p=1"
+
+      - type: iframe
+        title: 'Oh! a map'
+        width: 2
+        height: 1
+        column: 1
+        row: 2
+        data:
+          url: 'https://www.openstreetmap.org/export/embed.html?bbox=-0.004017949104309083%2C51.47612752641776%2C0.00030577182769775396%2C51.478569861898606&layer=mapnik'
+
+      - type: jenkins
+        view: view
+        title: Jenkins Testouze view
+        width: 1
+        height: 2
+        column: 0
+        row: 1
+        data:
+          name: testouze
+
+      - type: jenkins
+        view: job
+        title: 'GoDasher job'
+        width: 1
+        height: 1
+        column: 1
+        row: 1
+        data:
+          name: godasher
+
+  - title: 'My second dashboard'
+    components:
+      - type: iframe
+        title: 'A beautiful graph from grafana'
+        width: 1
+        height: 1
+        column: 0
+        row: 0
+        data:
+          url: 'https://snapshot.raintank.io/dashboard-solo/snapshot/y7zwi2bZ7FcoTlB93WN7yWO4aMiz3pZb?from=1493369923321&to=1493377123321&panelId=4&orgId=2'
