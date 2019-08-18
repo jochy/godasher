@@ -13,12 +13,15 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var baseUrl = ""
 var user = ""
 var password = ""
-var client = &http.Client{}
+var client = &http.Client{
+	Timeout: time.Second * 10,
+}
 var configLoaded = false
 
 func Setup(config godasher.Config) {
@@ -103,10 +106,16 @@ func RenderView(uri string, component godasher.Component) template.HTML {
 	}
 
 	response := make(map[string]interface{})
+	jenkinsResponse, err := callJenkins(uri)
+
+	if err != nil {
+		return template.HTML(fmt.Sprintf("%v", err))
+	}
+
 	if strings.ToLower(component.View) == "job" {
-		response["jobs"] = [1]interface{}{callJenkins(uri)}
+		response["jobs"] = [1]interface{}{jenkinsResponse}
 	} else {
-		response = callJenkins(uri)
+		response = jenkinsResponse
 	}
 
 	err = tmpl.Execute(&tpl, RenderRequest{
@@ -121,25 +130,25 @@ func RenderView(uri string, component godasher.Component) template.HTML {
 	return template.HTML(tpl.String())
 }
 
-func callJenkins(uri string) map[string]interface{} {
+func callJenkins(uri string) (map[string]interface{}, error) {
 	req, err := http.NewRequest("GET", baseUrl+uri+"/api/json?pretty=false&depth=2", nil)
 
 	if err != nil {
-		log.Printf("Error while creating the Jenkins request: %v", err)
+		return nil, err
 	}
 	req.SetBasicAuth(user, password)
 
 	resp, err := client.Do(req)
 
 	if err != nil {
-		log.Printf("Error while contacting Jenkins: %v", err)
+		return nil, err
 	}
 	bodyText, _ := ioutil.ReadAll(resp.Body)
 	var dat map[string]interface{}
 	if err := json.Unmarshal(bodyText, &dat); err != nil {
-		log.Printf("Unable to unmarshal json: %v", err)
+		return nil, err
 	}
-	return dat
+	return dat, nil
 }
 
 type RenderRequest struct {

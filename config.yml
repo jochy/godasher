@@ -1,5 +1,5 @@
 port: 8000
-rotationtime: 10
+rotationtime: 20
 theme: dark
 
 externalconfig:
@@ -62,10 +62,11 @@ dashboards:
   - title: 'My second dashboard'
     components:
       - type: iframe
-        title: 'A beautiful graph from grafana'
+        title: 'Google inside an iframe, pretty cool no ?'
         width: 1
         height: 1
         column: 0
         row: 0
         data:
-          url: 'https://snapshot.raintank.io/dashboard-solo/snapshot/y7zwi2bZ7FcoTlB93WN7yWO4aMiz3pZb?from=1493369923321&to=1493377123321&panelId=4&orgId=2'
+          url: 'https://www.google.fr'
+          proxy: true
