@@ -86,6 +86,8 @@ func main() {
 
 	if err != nil {
 		log.Fatalf("error: %v", err)
+	} else {
+		log.Println("Started")
 	}
 }
 

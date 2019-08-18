@@ -1,0 +1,75 @@
+<script src="https://unpkg.com/vue@2.6.10/dist/vue.js"></script>
+
+<style>
+    .metric-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .metric-container .metric {
+        margin: auto;
+        display: inline-block;
+    }
+</style>
+
+<div id="{{ .RandomId }}" class="metric-container">
+    <div class="metric" :style="metricStyle">
+        <div>{{"{{ this.value }}"}}</div>
+    </div>
+</div>
+
+<script type="x-template" id="metric-component">
+
+</script>
+
+<script>
+    Vue.component('metric-component', {
+        template: '#metric-component',
+        methods: {
+            addItem: function () {
+                if (this.newItem) {
+                    var item = {
+                        id: Math.random(0, 10000),
+                        title: this.newItem,
+                        completed: false
+                    };
+
+                    this.items.push(item);
+                    this.newItem = '';
+                }
+            }
+        }
+    });
+
+    let app = new Vue({
+        el: '#{{ .RandomId }}',
+        data() {
+            return {
+                value: {{ .Value }},
+                metricStyle: {
+                    transform: 'scale(1)'
+                }
+            }
+        },
+        methods: {
+            resizeMetric() {
+                let parent = document.getElementById("{{.RandomId}}");
+                let element = parent.getElementsByClassName("metric")[0];
+                let scale = Math.min(
+                    parent.clientWidth / element.clientWidth,
+                    parent.clientHeight / element.clientHeight
+                );
+                this.metricStyle.transform = `scale(${scale})`
+            }
+        },
+        destroyed() {
+            window.removeEventListener('resize', this.resizeMetric)
+        },
+        mounted() {
+            window.addEventListener('resize', this.resizeMetric);
+            this.resizeMetric()
+        },
+    });
+</script>

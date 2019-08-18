@@ -1,4 +1,4 @@
-plugins/*.so
-plugins/jenkins_view.template
+plugins/**
+data/**
 dasher
 *.upx

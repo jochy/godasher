@@ -1,5 +1,5 @@
 port: 8000
-rotationtime: 20
+rotationtime: 200
 theme: dark
 
 externalconfig:
@@ -61,12 +61,14 @@ dashboards:
 
   - title: 'My second dashboard'
     components:
-      - type: iframe
-        title: 'Google inside an iframe, pretty cool no ?'
+      - type: metric
+        view: text
+        title: 'My cool metric'
         width: 1
         height: 1
         column: 0
         row: 0
         data:
-          url: 'https://www.google.fr'
-          proxy: true
+          url: 'https://toto/actuator/metrics/bittrex.socket.reinit'
+          format: json
+          path: $.measurements[0].value
