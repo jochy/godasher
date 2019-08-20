@@ -13,4 +13,3 @@ go get github.com/dgrijalva/jwt-go
 cd $DIR || exit 1
 echo "Building Dasher"
 go build -ldflags="-s -w" src/dasher.go
-upx --brute dasher > /dev/null

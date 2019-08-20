@@ -10,23 +10,23 @@
     {{ else}}
         <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
     {{ end }}
+    <style>
+        .wrapper {
+            display: grid;
+            grid-template-columns: repeat({{ maxColumns .DashboardNumber }}, 1fr);
+            grid-gap: 5px;
+            grid-auto-rows: minmax(100px, auto);
+            height: calc(100vh - 3px)
+        }
+
+        .card-body {
+            padding: 0 !important;
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
-<style>
-    .wrapper {
-        display: grid;
-        grid-template-columns: repeat({{ maxColumns .DashboardNumber }}, 1fr);
-        grid-gap: 5px;
-        grid-auto-rows: minmax(100px, auto);
-        height: calc(100vh - 3px)
-    }
-    .card-body {
-        padding: 0 !important;
-        height: 100%;
-        overflow: hidden;
-    }
-</style>
-
 <div class="wrapper" data-title="${{ .Dashboard.Title }}">
     {{ range $idx, $component := .Dashboard.Components }}
         <style>

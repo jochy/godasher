@@ -3,6 +3,7 @@ package main
 import (
 	"../../godasher"
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -19,6 +20,7 @@ import (
 var baseUrl = ""
 var user = ""
 var password = ""
+var insecure = ""
 var client = &http.Client{
 	Timeout: time.Second * 10,
 }
@@ -40,6 +42,12 @@ func Setup(config godasher.Config) {
 		if !ok {
 			panic("externalconfig.jenkins.password is required")
 		}
+		insecure, ok = jenkinsConfig["insecure"]
+		shouldVerify := ok && strings.ToLower(insecure) == "true"
+		client.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: shouldVerify},
+		}
+
 		configLoaded = true
 	}
 }
@@ -73,7 +81,11 @@ func RenderView(uri string, component godasher.Component) template.HTML {
 
 	tmpl, err := template.New("jenkins_view").Funcs(template.FuncMap{
 		"mapValue": func(m map[string]interface{}, key string) interface{} {
-			return m[key]
+			val, ok := m[key]
+			if !ok {
+				return ""
+			}
+			return val
 		},
 		"jobColor": func(job map[string]interface{}) string {
 			color := strings.ToLower(fmt.Sprintf("%v", job["color"]))

@@ -2,3 +2,4 @@ plugins/*.so
 plugins/jenkins_view.template
 dasher
 *.upx
+.idea
