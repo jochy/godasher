@@ -1,6 +1,4 @@
 DIR=$PWD
-export GOOS=linux
-export GOARCH=amd64
 
 echo "Building plugins"
 
