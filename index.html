@@ -33,6 +33,7 @@
             .component-{{ $idx }} {
                 grid-column: {{ sum 1 $component.Column  }} /{{ sum (sum $component.Column $component.Width) 1 }};
                 grid-row: {{ sum 1 $component.Row }} /{{ sum (sum $component.Row $component.Height) 1 }};
+                display: inline-grid;
             }
         </style>
         <div class="component-{{ $idx }}">
