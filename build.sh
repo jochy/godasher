@@ -1,8 +1,6 @@
 #!/bin/sh
 
 DIR=$PWD
-export GOOS=linux
-export GOARCH=amd64
 
 echo "Download dependencies"
 go get gopkg.in/yaml.v2
