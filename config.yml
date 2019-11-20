@@ -19,6 +19,7 @@ dashboards:
         row: 0
         data:
           url: 'https://toto/internal/actuator/health'
+          insecure: true
           format: json
           refreshIntervalInSeconds: 300
           path: $.status

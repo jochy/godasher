@@ -2,6 +2,7 @@ package main
 
 import (
 	"../../godasher"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"github.com/yalp/jsonpath"
@@ -12,10 +13,6 @@ import (
 	"strings"
 	"time"
 )
-
-var client = &http.Client{
-	Timeout: time.Second * 10,
-}
 
 var refresh = make(map[string]int64)
 var lastRefresh = make(map[string]string)
@@ -53,6 +50,16 @@ func retrieveMetric(component godasher.Component) (string, error) {
 	req, err := http.NewRequest("GET", component.Data["url"], nil)
 	if err != nil {
 		return "nil", err
+	}
+
+	var client = &http.Client{
+		Timeout: time.Second * 10,
+	}
+
+	if component.Data["insecure"] == "true" {
+		client.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
 	}
 
 	resp, err := client.Do(req)
