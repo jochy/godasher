@@ -21,6 +21,10 @@ func home(w http.ResponseWriter, r *http.Request) {
 	renderPage(w, config.Dashboards[0], 0)
 }
 
+func favicon(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "favicon.ico")
+}
+
 func next(w http.ResponseWriter, r *http.Request) {
 	readConfigFile()
 	initPlugins()
@@ -82,6 +86,7 @@ func main() {
 
 	http.HandleFunc("/", home)
 	http.HandleFunc("/next", next)
+	http.HandleFunc("/favicon.ico", favicon)
 	err := http.ListenAndServe(":"+strconv.Itoa(config.Port), nil)
 
 	if err != nil {
