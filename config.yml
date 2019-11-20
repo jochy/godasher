@@ -11,15 +11,18 @@ externalconfig:
 dashboards:
   - title: 'My second dashboard'
     components:
-      - type: iframe
-        title: 'Grafana working'
+      - type: health
+        title: 'Inte01 health check'
         width: 1
         height: 1
         column: 0
         row: 0
         data:
-          url: 'https://play.grafana.org/dashboard/snapshot/1eFZHlo5cI5Bv2uEadHY1gLNZK6x75ZW'
-          base: 'https://play.grafana.org'
-          proxy-port: 8888
-          proxy-hostname: localhost
-          proxy-protocol: http
+          url: 'https://toto/internal/actuator/health'
+          format: json
+          path: $.status
+          size: 30px
+          UP: green
+          WARN: orange
+          DOWN: red
+          nil: gray
