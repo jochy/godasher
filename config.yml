@@ -20,6 +20,7 @@ dashboards:
         data:
           url: 'https://toto/internal/actuator/health'
           format: json
+          refreshIntervalInSeconds: 300
           path: $.status
           size: 30px
           UP: green

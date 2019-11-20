@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -15,6 +16,9 @@ import (
 var client = &http.Client{
 	Timeout: time.Second * 10,
 }
+
+var refresh = make(map[string]int64)
+var lastRefresh = make(map[string]string)
 
 func Setup(config godasher.Config) {
 }
@@ -38,6 +42,14 @@ func Render(component godasher.Component) template.HTML {
 }
 
 func retrieveMetric(component godasher.Component) (string, error) {
+	previousRefresh, exists := refresh[component.Data["url"]]
+	if exists  {
+		refreshInterval, nil := strconv.Atoi(component.Data["refreshIntervalInSeconds"])
+		if time.Now().Unix() - previousRefresh < int64(refreshInterval) {
+			return lastRefresh[component.Data["url"]], nil
+		}
+	}
+
 	req, err := http.NewRequest("GET", component.Data["url"], nil)
 	if err != nil {
 		return "nil", err
@@ -69,6 +81,8 @@ func retrieveMetric(component godasher.Component) (string, error) {
 			return "nil", err
 		}
 
+		lastRefresh[component.Data["url"]] = val.(string)
+		refresh[component.Data["url"]] = time.Now().Unix()
 		return val.(string), nil
 	}
 
