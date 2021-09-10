@@ -1,6 +1,7 @@
 DIR=$PWD
 
 echo "Building plugins"
+export GO111MODULE=auto
 
 echo "---- Building Iframe plugin"
 cd $DIR/src/plugins/iframe || exit 1
